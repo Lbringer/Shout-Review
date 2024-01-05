@@ -1,10 +1,14 @@
 package com.api.shoutReview.models;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.api.shoutReview.services.response.ReviewResponse;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -50,6 +54,17 @@ public class Review {
 	
 	@UpdateTimestamp
 	private Date updatedDate;
+	
+	public static ReviewResponse toReviewResponse(Review review) {
+		return ReviewResponse.builder().review(review.movieReview).rating(review.rating).build();
+	}
+
+	public static List<ReviewResponse> toReviewResponse(List<Review> reviewList) {
+		if(Objects.isNull(reviewList)) {
+			return new ArrayList<>();
+		}
+		return reviewList.stream().map(Review :: toReviewResponse).toList();
+	}
 	
 //	Review Response
 }

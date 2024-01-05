@@ -2,6 +2,8 @@ package com.api.shoutReview.models;
 
 import java.util.List;
 
+import com.api.shoutReview.services.response.MovieResponse;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,6 +31,14 @@ public class Movie {
 	
 	@OneToMany(mappedBy = "movie")
 	private List<Review> reviews;
+
+
+
+	public MovieResponse toMovieResponse() {
+		// TODO Auto-generated method stub
+		return MovieResponse.builder().genre(this.genre).title(this.title).rating(this.rating)
+				.reviews(Review.toReviewResponse(this.reviews)).build();
+	}
 	
 	//Response -> movie here
 	
